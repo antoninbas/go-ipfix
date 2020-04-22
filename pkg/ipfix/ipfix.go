@@ -3,8 +3,14 @@ package ipfix
 /*
 #include <sys/types.h> // for ssize_t
 #include <ipfix.h>
+#include <ipfix_def_antrea.h>
+#include <ipfix_fields_antrea.h>
 #include <stdlib.h>
 #include <string.h>
+
+int registerAntrea() {
+    return ipfix_add_vendor_information_elements(ipfix_ft_antrea);
+}
 
 void **makeFieldArray(int nFields) {
     return malloc(nFields * sizeof(void *));
@@ -61,6 +67,11 @@ func Init() error {
 	rc := C.ipfix_init()
 	if rc != 0 {
 		return fmt.Errorf("ipfix_init returned error code %d", rc)
+	}
+	// shortcut for now, this libray has no reason to be antrea-specific
+	rc = C.registerAntrea()
+	if rc != 0 {
+		return fmt.Errorf("error code %d when registering antrea elements", rc)
 	}
 	return nil
 }
