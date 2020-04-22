@@ -42,14 +42,12 @@ func main() {
 		klog.Errorf("Error when creating template: %v", err)
 	}
 
-	// IPFIX_FT_SOURCEIPV4ADDRESS
-	if err := ipf.AddField(tpl, ipfix.DEFAULT_ENO, 8, 4); err != nil {
-		klog.Errorf("Error when adding IPFIX_FT_SOURCEIPV4ADDRESS: %v", err)
+	if err := ipf.AddField(tpl, ipfix.IPFIX_ENO_Default, ipfix.IPFIX_FIELD_sourceIPv4Address, 4); err != nil {
+		klog.Errorf("Error when adding sourceIPv4Address: %v", err)
 		return
 	}
-	// IPFIX_FT_PACKETDELTACOUNT
-	if err := ipf.AddField(tpl, ipfix.DEFAULT_ENO, 2, 8); err != nil {
-		klog.Errorf("Error when adding IPFIX_FT_PACKETDELTACOUNT: %v", err)
+	if err := ipf.AddField(tpl, ipfix.IPFIX_ENO_Default, ipfix.IPFIX_FIELD_packetDeltaCount, 8); err != nil {
+		klog.Errorf("Error when adding packetDeltaCount: %v", err)
 		return
 	}
 

@@ -60,7 +60,6 @@ import (
 
 const (
 	IPFIX_VERSION = 0x0A
-	DEFAULT_ENO   = 0
 )
 
 func Init() error {
