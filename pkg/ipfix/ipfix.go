@@ -28,6 +28,12 @@ void freeLengthArray(uint16_t *la) {
     free(la);
 }
 // TODO: check endianness, ensure whether this is handled correctly by libipfix
+void addU8(void **fa, uint16_t *la, int idx, uint8_t f) {
+    uint8_t *d = malloc(sizeof(f));
+    *d = f;
+    fa[idx] = (void *)d;
+    la[idx] = 1;
+}
 void addU16(void **fa, uint16_t *la, int idx, uint16_t f) {
     uint16_t *d = malloc(sizeof(f));
     *d = f;
@@ -185,6 +191,12 @@ func NewFieldArray(tpl *Template, nFields int) *FieldArray {
 func (fArray *FieldArray) Delete() {
 	C.freeFieldArray(fArray.array, C.int(fArray.idx))
 	C.freeLengthArray(fArray.lengths)
+}
+
+func (fArray *FieldArray) AddU8(f uint8) error {
+	C.addU8(fArray.array, fArray.lengths, C.int(fArray.idx), C.uint8_t(f))
+	fArray.idx++
+	return nil
 }
 
 func (fArray *FieldArray) AddU16(f uint16) error {
